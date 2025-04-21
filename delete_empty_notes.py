@@ -3,13 +3,14 @@ import sys
 
 def delete_empty_text_files(directory):
     """
-    Deletes empty .txt files in the specified directory and returns the count of deleted files.
+    Deletes small .txt files in the specified directory and returns the count of deleted files.
+    A file is considered small if it has a size of less than 100 bytes.
     
     Args:
         directory (str): The path to the directory to scan for text files.
     
     Returns:
-        int: Number of empty text files deleted.
+        int: Number of small text files deleted.
     """
     deleted_count = 0
     
@@ -22,11 +23,11 @@ def delete_empty_text_files(directory):
             # Check if it's a file (not a directory)
             if os.path.isfile(file_path):
                 try:
-                    # Check if file is empty
-                    if os.path.getsize(file_path) == 0:
+                    # Check if file size is very small (less than 100 bytes)
+                    if os.path.getsize(file_path) < 100:
                         os.remove(file_path)
                         deleted_count += 1
-                        print(f"Deleted empty file: {filename}")
+                        print(f"Deleted small file (<100 bytes): {filename}")
                 except Exception as e:
                     print(f"Error processing {filename}: {str(e)}")
     
@@ -47,4 +48,4 @@ if __name__ == "__main__":
     
     print(f"Scanning directory: {directory}")
     count = delete_empty_text_files(directory)
-    print(f"Total empty text files deleted: {count}")
+    print(f"Total small text files deleted: {count}")
